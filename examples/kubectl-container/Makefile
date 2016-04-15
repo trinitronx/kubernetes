@@ -19,8 +19,10 @@
 # `make container` will build a container-- you must supply a tag.
 # `make push` will push the container-- you must supply a tag.
 
+HOST_PLATFORM = $(shell bash -c 'source ../../hack/lib/util.sh 2>&1 1>/dev/null;  kube::util::host_platform')
+
 kubectl:
-	KUBE_STATIC_OVERRIDES="kubectl" ../../hack/build-go.sh cmd/kubectl; cp ../../_output/local/bin/linux/amd64/kubectl .
+	KUBE_STATIC_OVERRIDES="kubectl" ../../hack/build-go.sh cmd/kubectl; cp ../../_output/local/bin/$(HOST_PLATFORM)/kubectl .
 
 .tag: kubectl
 	./kubectl version -c | grep -o 'GitVersion:"[^"]*"' | cut -f 2 -d '"' > .tag
