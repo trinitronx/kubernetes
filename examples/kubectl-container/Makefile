@@ -25,7 +25,7 @@ kubectl:
 	KUBE_STATIC_OVERRIDES="kubectl" ../../hack/build-go.sh cmd/kubectl; cp ../../_output/local/bin/$(HOST_PLATFORM)/kubectl .
 
 .tag: kubectl
-	./kubectl version -c | grep -o 'GitVersion:"[^"]*"' | cut -f 2 -d '"' > .tag
+	./kubectl version -c | grep -o 'GitVersion:"[^"]*"' | cut -f 2 -d '"' | tr '+' '-' > .tag
 
 tag: .tag
 	@echo "Suggest using TAG=$(shell cat .tag)"
